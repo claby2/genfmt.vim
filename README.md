@@ -46,7 +46,7 @@ To enable this, set the following variable to 1 (default value is 0).
 let g:genfmt_enable_fallback = 1
 ```
 
-Additionally, you can define your custom commands to run as a fallback.
+Additionally, you can define custom commands to run as a fallback.
 The following represents the default commands.
 
 ```vim
