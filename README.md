@@ -7,7 +7,9 @@ This vim plugin utilizes user-defined external tools to format code.
 
 ### Installation
 
-It is recommended that you use a plugin manager (such as [vim-plug](https://github.com/junegunn/vim-plug) to install.
+It is recommended that you use a plugin manager to install.
+
+This example uses vim-plug.
 
 #### [vim-plug](https://github.com/junegunn/vim-plug)
 
