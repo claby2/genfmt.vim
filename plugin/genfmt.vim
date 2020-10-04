@@ -44,8 +44,11 @@ function! s:RunFormatter(ftype)
                 silent! execute len(stdout).',$delete' '_'
             endif
             call setline(1, stdout)
+            echo "Formatted with '".command."'"
+        else
+            echo "No change necessary with '".command."'"
         endif
-        echo "Formatted with '".command."'"
+
     else
         call s:Warn("WARNING: Formatter failed to run with '".command."'")
     endif
