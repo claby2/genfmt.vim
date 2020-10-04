@@ -40,7 +40,9 @@ function! s:RunFormatter(ftype)
     let success = index([0], v:shell_error) != -1
     if success
         if stdout !=# stdin
-            execute "normal! :%d"
+            if line('$') > len(stdout)
+                silent! execute len(stdout).',$delete' '_'
+            endif
             call setline(1, stdout)
         endif
         echo "Formatted with '".command."'"
