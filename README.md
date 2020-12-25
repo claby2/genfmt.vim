@@ -24,7 +24,9 @@ call plug#end()
 -   `:GenfmtFormat`
     -   Format the current buffer
 
-`genfmt.vim` works by running an external tool and replacing the current buffer with its output.
+### Defining Formatters
+
+`genfmt.vim` works by running an external tool and replacing the current buffer with its standard output.
 External tools must be defined and correlated with a corresponding filetype (`&filetype`).
 
 Example configuration:
@@ -38,6 +40,29 @@ let g:genfmt_formatters = {
 
 In this example, if the formatter is run in a python file, it would run [`yapf`](https://github.com/google/yapf).
 Likewise, the formatter would run [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html) with the given style argument in a cpp file. 
+
+### Custom Vim Function
+
+Defining a custom vim function that returns the formatter command used allows for additional control if you wish to do so.
+For example, specifying the name of the file may influence the output of some formatters.
+
+Example:
+
+```vim
+function! ClangFormat()
+    return "clang-format --assume-filename=".expand('%:t')." -style=file"
+endfunction
+
+let g:genfmt_formatters = {
+            \ 'cpp': "ClangFormat()",
+            \ }
+```
+
+The `ClangFormat()` function returns a command with an argument (`assume-filename`) specifying the name of the file that will be formatted.
+
+When defining the formatter under `genfmt_formatters`, it is important to pass the name of the function with `()` at the end of the string.
+
+### Fallback Formatters
 
 In the case where no formatter is found for the filetype, `genfmt.vim` can format the code by indenting, retabbing, and removing trailing whitespace.
 To enable this, set the following variable to 1 (default value is 0).
