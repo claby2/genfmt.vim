@@ -34,6 +34,11 @@ endfunction
 
 function! s:RunFormatter(ftype)
     let command = g:genfmt_formatters[a:ftype]
+    " Check if command string has '()' at the end and exists as a function
+    if command[-2:-1] == "()" && exists("*".command)
+        " Make command take the value of the result of the called function
+        let command = call(command[0:-3], [], {})
+    endif
     let stdin = getbufline(bufnr('%'), 1, '$')
     let stdin_str = join(stdin, "\n")
     let stdout = split(system(command, stdin_str), '\n')
