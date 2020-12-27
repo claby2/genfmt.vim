@@ -21,7 +21,7 @@ function! s:Warn(message)
 endfunction
 
 function! s:Fallback()
-    if g:genfmt_fallback->empty() == 0
+    if empty(g:genfmt_fallback) == 0
         let view = winsaveview()
         let search = @/
         for command in g:genfmt_fallback
@@ -63,7 +63,7 @@ endfunction
 
 function! s:Format()
     let ftype = &filetype
-    if g:genfmt_formatters->has_key(ftype)
+    if has_key(g:genfmt_formatters, ftype)
         " Filetype formatter exists
         call s:RunFormatter(ftype)
     else
