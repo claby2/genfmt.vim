@@ -11,16 +11,16 @@ if !exists('g:genfmt_enable_fallback')
 endif
 
 if !exists('g:genfmt_fallback')
-    let g:genfmt_fallback = ["%s/\\s\\+$//e", "retab", "normal! gg=G"]
+    let g:genfmt_fallback = ['%s/\\s\\+$//e', 'retab', 'normal! gg=G']
 endif
 
-function! s:Warn(message)
+function! s:Warn(message) abort
     echohl WarningMsg |
                 \ echomsg a:message |
                 \ echohl None
 endfunction
 
-function! s:Fallback()
+function! s:Fallback() abort
     if empty(g:genfmt_fallback) == 0
         let view = winsaveview()
         let search = @/
@@ -32,16 +32,16 @@ function! s:Fallback()
     endif
 endfunction
 
-function! s:RunFormatter(ftype)
+function! s:RunFormatter(ftype) abort
     let command = g:genfmt_formatters[a:ftype]
     " Check if command string has '()' at the end and exists as a function
-    if command[-2:-1] == "()" && exists("*".command)
+    if command[-2:-1] == '()' && exists('*'.command)
         " Make command take the value of the result of the called function
         let command = call(command[0:-3], [], {})
     endif
     let stdin = getbufline(bufnr('%'), 1, '$')
     let stdin_str = join(stdin, "\n")
-    let stdout = split(system(command, stdin_str), '\n')
+    let stdout = split(system(command, stdin_str), "\n")
     let success = index([0], v:shell_error) != -1
     if success
         if stdout !=# stdin
@@ -61,7 +61,7 @@ function! s:RunFormatter(ftype)
     endif
 endfunction
 
-function! s:Format()
+function! s:Format() abort
     let ftype = &filetype
     if has_key(g:genfmt_formatters, ftype)
         " Filetype formatter exists
@@ -70,7 +70,7 @@ function! s:Format()
         " No formatter for filetype exists
         if g:genfmt_enable_fallback == 1
             call s:Fallback()
-            call s:Warn("WARNING: Formatted with fallback formatter")
+            call s:Warn('WARNING: Formatted with fallback formatter')
         else
             call s:Warn("WARNING: No formatters defined for filetype '".ftype."'")
         endif
