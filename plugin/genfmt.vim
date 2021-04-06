@@ -1,4 +1,4 @@
-if exists("g:loaded_genfmt")
+if exists('g:loaded_genfmt')
     finish
 endif
 

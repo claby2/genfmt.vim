@@ -35,7 +35,7 @@ endfunction
 function! s:RunFormatter(ftype) abort
     let command = g:genfmt_formatters[a:ftype]
     " Check if command string has '()' at the end and exists as a function
-    if command[-2:-1] == '()' && exists('*'.command)
+    if command[-2:-1] ==? '()' && exists('*'.command)
         " Make command take the value of the result of the called function
         let command = call(command[0:-3], [], {})
     endif
